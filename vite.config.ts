@@ -18,8 +18,15 @@ export default defineConfig({
     // withtout inlining assets as base64:
     assetsInlineLimit: 0,
   },
+  optimizeDeps: {
+    exclude: [
+      '@flagship.io/react-sdk',
+    ],
+  },
   ssr: {
     optimizeDeps: {
+      include: [],
+      // exclude: ['@flagship.io/react-sdk/edge'],
       /**
        * Include dependencies here if they throw CJS<>ESM errors.
        * For example, for the following error:
@@ -30,7 +37,6 @@ export default defineConfig({
        * Include 'example-dep' in the array below.
        * @see https://vitejs.dev/config/dep-optimization-options
        */
-      include: [],
     },
   },
 });

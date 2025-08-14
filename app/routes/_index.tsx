@@ -7,6 +7,7 @@ import type {
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
+import { useFsFlag } from '@flagship.io/react-sdk/edge';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -93,9 +94,10 @@ function RecommendedProducts({
 }: {
   products: Promise<RecommendedProductsQuery | null>;
 }) {
+  const btnColor = useFsFlag('btnColor');
   return (
     <div className="recommended-products">
-      <h2>Recommended Products</h2>
+      <h2>Recommended Products </h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (

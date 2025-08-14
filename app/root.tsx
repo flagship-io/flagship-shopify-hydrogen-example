@@ -17,6 +17,8 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
+// import {getFsVisitorData} from './helpers/flagship';
+import {FsProvider} from './helpers/FsProvider';
 
 export type RootLoader = typeof loader;
 
@@ -73,11 +75,20 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
+  // const visitor = await getFsVisitorData({
+  //   visitorId: 'visitorId',
+  //   context: {
+  //     key: 'value',
+  //   },
+  //   hasConsented: true,
+  // });
+
   const {storefront, env} = args.context;
 
   return {
     ...deferredData,
     ...criticalData,
+    // fsInitialFlags: visitor.getFlags().toJSON(),
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -144,6 +155,7 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
+
   const data = useRouteLoaderData<RootLoader>('root');
 
   return (
@@ -158,6 +170,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <Links />
       </head>
       <body>
+        <FsProvider>
         {data ? (
           <Analytics.Provider
             cart={data.cart}
@@ -169,6 +182,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         ) : (
           children
         )}
+        </FsProvider>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>
@@ -177,7 +191,11 @@ export function Layout({children}: {children?: React.ReactNode}) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    // <FsProvider>
+      <Outlet />
+    // </FsProvider>
+  );
 }
 
 export function ErrorBoundary() {
