@@ -17,7 +17,7 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
-// import {getFsVisitorData} from './helpers/flagship';
+import {getFsVisitorData} from './helpers/flagship';
 import {FsProvider} from './helpers/FsProvider';
 
 export type RootLoader = typeof loader;
@@ -75,20 +75,27 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  // const visitor = await getFsVisitorData({
-  //   visitorId: 'visitorId',
-  //   context: {
-  //     key: 'value',
-  //   },
-  //   hasConsented: true,
-  // });
+  // Initialize Flagship visitor data
+  // This is an example of how to initialize the Flagship visitor data.
+  const fsVisitorData = {
+    visitorId: 'visitorId',
+    context: {
+      key: 'value',
+    },
+    hasConsented: true, // This should be set based on user consent
+  };
 
-  const {storefront, env} = args.context;
+  // Fetch the Flagship visitor data
+  // This will start the Flagship SDK and fetch the flags for the visitor.
+  const visitor = await getFsVisitorData(fsVisitorData);
+
+  const {storefront, env} = args.context;  
 
   return {
     ...deferredData,
     ...criticalData,
-    // fsInitialFlags: visitor.getFlags().toJSON(),
+    fsInitialFlags: visitor.getFlags().toJSON(),
+    fsVisitorData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -170,18 +177,21 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <Links />
       </head>
       <body>
-        <FsProvider>
-        {data ? (
-          <Analytics.Provider
-            cart={data.cart}
-            shop={data.shop}
-            consent={data.consent}
-          >
-            <PageLayout {...data}>{children}</PageLayout>
-          </Analytics.Provider>
-        ) : (
-          children
-        )}
+        <FsProvider
+          visitorData={data?.fsVisitorData}
+          initialFlagsData={data?.fsInitialFlags}
+        >
+          {data ? (
+            <Analytics.Provider
+              cart={data.cart}
+              shop={data.shop}
+              consent={data.consent}
+            >
+              <PageLayout {...data}>{children}</PageLayout>
+            </Analytics.Provider>
+          ) : (
+            children
+          )}
         </FsProvider>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
@@ -193,7 +203,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
 export default function App() {
   return (
     // <FsProvider>
-      <Outlet />
+    <Outlet />
     // </FsProvider>
   );
 }

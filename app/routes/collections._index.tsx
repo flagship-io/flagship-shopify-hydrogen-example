@@ -11,6 +11,8 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
+    console.error('fsVisitor', args.context.fsVisitor);
+
   return {...deferredData, ...criticalData};
 }
 

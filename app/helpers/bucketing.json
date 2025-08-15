@@ -1,0 +1,555 @@
+{
+    "campaigns": [
+        {
+            "id": "cqqeghrg8kcfm7srd6f0",
+            "name": "Troubleshooting QA",
+            "type": "ab",
+            "variationGroups": [
+                {
+                    "id": "cqqeghrg8kcfm7srd6g0",
+                    "name": "variation group",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "isTrQA",
+                                        "value": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cqqeghrg8kcfm7srd6gg",
+                            "name": "Original",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "flag-key-1": null
+                                }
+                            },
+                            "reference": true
+                        },
+                        {
+                            "id": "cqqeghrg8kcfm7srd6h0",
+                            "name": "Variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "flag-key-1": "value-1"
+                                }
+                            },
+                            "allocation": 50
+                        },
+                        {
+                            "id": "cqqehsd30eccmtkggo3g",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "flag-key-1": "value-2"
+                                }
+                            },
+                            "allocation": 50
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cpcuh0qh8lh568qfmlg0",
+            "name": "campaign 5",
+            "type": "ab",
+            "variationGroups": [
+                {
+                    "id": "cpcuh0qh8lh568qfmlh0",
+                    "name": "variation group",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "fs_all_users",
+                                        "value": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cpcuh0qh8lh568qfmlhg",
+                            "name": "Original",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "myDutFlag": null
+                                }
+                            },
+                            "allocation": 34,
+                            "reference": true
+                        },
+                        {
+                            "id": "cpcuh0qh8lh568qfmli0",
+                            "name": "Variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "myDutFlag": "value 1"
+                                }
+                            },
+                            "allocation": 33
+                        },
+                        {
+                            "id": "cpcuhmr3hc6ic7mc46i0",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "myDutFlag": "value 2"
+                                }
+                            },
+                            "allocation": 33
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cpct63vdhhkg6nnnutsg",
+            "name": "Campaign 4",
+            "type": "ab",
+            "variationGroups": [
+                {
+                    "id": "cpct63vdhhkg6nnnuttg",
+                    "name": "variation group",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "isQA",
+                                        "value": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cpct63vdhhkg6nnnutu0",
+                            "name": "Original",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag": null
+                                }
+                            },
+                            "allocation": 34,
+                            "reference": true
+                        },
+                        {
+                            "id": "cpct63vdhhkg6nnnutug",
+                            "name": "Variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag": "Value 1"
+                                }
+                            },
+                            "allocation": 33
+                        },
+                        {
+                            "id": "cpct6rvdhhkg2bpfgtv0",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag": "Value 2"
+                                }
+                            },
+                            "allocation": 33
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cpct58v25bn17hf4dh4g",
+            "name": "Campaign 3",
+            "type": "toggle",
+            "variationGroups": [
+                {
+                    "id": "cpct58v25bn17hf4dh5g",
+                    "name": "Scenario 1",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "fs_all_users",
+                                        "value": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cpct58v25bn17hf4dh60",
+                            "name": "Scenario 1",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "Flag 1": "Value 1"
+                                }
+                            },
+                            "allocation": 100
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cpct48j3hc6i43bfqq30",
+            "name": "Campaign 2",
+            "type": "ab",
+            "variationGroups": [
+                {
+                    "id": "cpct48j3hc6i43bfqq40",
+                    "name": "variation group",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "fs_all_users",
+                                        "value": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cpct48j3hc6i43bfqq4g",
+                            "name": "Original",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "background": null
+                                }
+                            },
+                            "allocation": 25,
+                            "reference": true
+                        },
+                        {
+                            "id": "cpct48j3hc6i43bfqq50",
+                            "name": "Variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "background": "value 1"
+                                }
+                            },
+                            "allocation": 25
+                        },
+                        {
+                            "id": "cpct4p2ot1a1t9n2r5vg",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "background": "value 3"
+                                }
+                            },
+                            "allocation": 25
+                        },
+                        {
+                            "id": "cpct4p725bn1ckc428e0",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "background": "value 2"
+                                }
+                            },
+                            "allocation": 25
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cpct2133hc6i14qh730g",
+            "name": "Campaign-1",
+            "type": "ab",
+            "variationGroups": [
+                {
+                    "id": "cpct2133hc6i14qh731g",
+                    "name": "variation group",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "fs_all_users",
+                                        "value": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cpct2133hc6i14qh7320",
+                            "name": "Original",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "qaBtnColor": null,
+                                    "qaBtnTitle": null
+                                }
+                            },
+                            "allocation": 20,
+                            "reference": true
+                        },
+                        {
+                            "id": "cpct2133hc6i14qh732g",
+                            "name": "Variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "qaBtnColor": "value 1",
+                                    "qaBtnTitle": "click 1"
+                                }
+                            },
+                            "allocation": 20
+                        },
+                        {
+                            "id": "cpct3epi7m7i1ag1tidg",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "qaBtnColor": "value 2",
+                                    "qaBtnTitle": "click 2"
+                                }
+                            },
+                            "allocation": 20
+                        },
+                        {
+                            "id": "cpct3f33hc6i43c1985g",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "qaBtnColor": "value 3",
+                                    "qaBtnTitle": "click 3"
+                                }
+                            },
+                            "allocation": 20
+                        },
+                        {
+                            "id": "cpct3f33hc6i4dbkno20",
+                            "name": "New variation",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "qaBtnColor": "value 4",
+                                    "qaBtnTitle": "click 4"
+                                }
+                            },
+                            "allocation": 20
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cht4j0d77vnhmphn06v0",
+            "name": "color-campagns",
+            "type": "toggle",
+            "variationGroups": [
+                {
+                    "id": "cht4j0d77vnhmphn0700",
+                    "name": "Scenario 1",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "fs_all_users",
+                                        "value": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cht4j0d77vnhmphn070g",
+                            "name": "Scenario 1",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "btnColor": "#28a745"
+                                }
+                            },
+                            "allocation": 100
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cecu03ot8ti0afg8mi60",
+            "name": "Quick start",
+            "slug": "js-app-qa",
+            "type": "ab",
+            "variationGroups": [
+                {
+                    "id": "cecu03ot8ti0afg8mi70",
+                    "name": "Default",
+                    "targeting": {
+                        "targetingGroups": [
+                            {
+                                "targetings": [
+                                    {
+                                        "operator": "EQUALS",
+                                        "key": "fs_all_users",
+                                        "value": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "variations": [
+                        {
+                            "id": "cecu03ot8ti0afg8mi7g",
+                            "name": "Original",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag_key": null
+                                }
+                            },
+                            "reference": true
+                        },
+                        {
+                            "id": "cecu03ot8ti0afg8mi80",
+                            "name": "Variation 1",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag_key": "value 1 changed again"
+                                }
+                            },
+                            "allocation": 40
+                        },
+                        {
+                            "id": "cecu03ot8ti0afg8mi8g",
+                            "name": "Variation 3",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag_key": "value 3"
+                                }
+                            },
+                            "allocation": 30
+                        },
+                        {
+                            "id": "cecu03ot8ti0afg8mi90",
+                            "name": "Variation 2",
+                            "modifications": {
+                                "type": "FLAG",
+                                "value": {
+                                    "my_flag_key": "value 2"
+                                }
+                            },
+                            "allocation": 30
+                        }
+                    ]
+                }
+            ],
+            "bucketRanges": [
+                {
+                    "r": [
+                        0,
+                        100
+                    ]
+                }
+            ]
+        }
+    ],
+    "accountSettings": {
+        "enabledXPC": true,
+        "eaiCollectEnabled": true,
+        "eaiActivationEnabled": true
+    }
+}
