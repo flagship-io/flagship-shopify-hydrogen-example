@@ -41,7 +41,7 @@ yarn install
 ```
 
 3. Configure environment variables:
-   
+
 Create a .env file with your Flagship credentials:
 
 ```bash
@@ -56,6 +56,40 @@ npm run dev
 # or
 yarn dev
 ```
+
+## Configure Vite for Flagship SDK
+
+When using Flagship SDK with Hydrogen, proper Vite configuration is essential to prevent bundling issues. Update your vite.config.ts file with the following settings:
+
+```typescript
+export default defineConfig({
+  // ...other configuration
+  optimizeDeps: {
+    exclude: [
+      '@flagship.io/react-sdk',
+      '@flagship.io/react-sdk/edge'
+    ],
+  },
+  ssr: {
+    optimizeDeps: {
+      include: [],
+      exclude: [],
+    },
+  },
+});
+```
+
+This configuration:
+
+* Excludes both the main and edge bundles from client-side optimization
+* Prevents Vite from processing the SDK in ways that might break its functionality
+
+> ⚠️ **Important**: In Hydrogen (and other edge/SSR environments), always import from the edge bundle:
+>
+> ```tsx
+> // Correct import for Hydrogen
+> import { ... } from '@flagship.io/react-sdk/edge';
+> ```
 
 ## Initialize Flagship SDK in Hydrogen
 
@@ -327,44 +361,60 @@ import initialBucketing from './bucketing.json';
 
 ### Production Approach
 
-For production environments, set up a CI/CD pipeline to update the bucketing data:
+For production environments, it's better to trigger a redeployment when campaigns are updated rather than committing changes to your repository:
 
-1. Create a GitHub Action workflow file (`.github/workflows/update-bucketing.yml`):
+1. Create a GitHub Action workflow file (`.github/workflows/update-and-deploy.yml`):
 
 ```yaml
-name: Update Flagship Bucketing Data
+name: Update Flagship Bucketing Data and Deploy
 
 on:
-  schedule:
-    # Run every hour
-    - cron: '0 * * * *'
+  # Webhook from Flagship when campaigns change
+  repository_dispatch:
+    types: [flagship-campaign-updated]
   # Allow manual triggering
   workflow_dispatch:
 
 jobs:
-  update-bucketing:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      
       - name: Fetch latest bucketing data
         run: |
           curl -s https://cdn.flagship.io/${{ secrets.FLAGSHIP_ENV_ID }}/bucketing.json > app/helpers/bucketing.json
-
-      - name: Commit and push if changed
+      
+      - name: Build application
+        run: yarn build
+      
+      # For Shopify Oxygen deployment
+      - name: Deploy to Shopify Oxygen
         run: |
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
-          git add app/helpers/bucketing.json
-          if git diff --staged --quiet; then
-            echo "No changes to bucketing data"
-          else
-            git commit -m "Update bucketing data"
-            git push
-          fi
+          npx shopify hydrogen deploy
+        env:
+          SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN }}
 ```
 
-2. Set up a webhook in the Flagship Platform that triggers your GitHub Action when campaigns are updated.
+2. Set up a webhook in the Flagship Platform that triggers this workflow when campaigns are updated.
+This approach:
+
+Avoids cluttering your commit history with data changes
+Provides immediate updates to production when campaigns change
+Follows infrastructure-as-code best practices
+Works well with modern deployment platforms like Shopify Oxygen
+
+> ⚠️ Note: If you're using a different hosting platform, replace the deployment step with the appropriate commands for your platform (e.g., Vercel, Netlify, AWS).
+>
 
 ## Learn More
 
