@@ -222,35 +222,47 @@ export function FsProvider({
 
 In the root Layout component, use this provider with the data from the loader:
 
-```typescript
+```tsx
 // In root.tsx Layout component
-return (
-  <html lang="en">
-    <head>
-      {/* ... */}
-    </head>
-    <body>
-      <FsProvider
-        visitorData={data?.fsVisitorData}
-        initialFlagsData={data?.fsInitialFlags}
-      >
-        {data ? (
-          <Analytics.Provider
-            cart={data.cart}
-            shop={data.shop}
-            consent={data.consent}
-          >
-            <PageLayout {...data}>{children}</PageLayout>
-          </Analytics.Provider>
-        ) : (
-          children
-        )}
-      </FsProvider>
-      <ScrollRestoration nonce={nonce} />
-      <Scripts nonce={nonce} />
-    </body>
-  </html>
-);
+export function Layout({children}: {children?: React.ReactNode}) {
+  const nonce = useNonce();
+
+  const data = useRouteLoaderData<RootLoader>('root');
+
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="stylesheet" href={tailwindCss}></link>
+        <link rel="stylesheet" href={resetStyles}></link>
+        <link rel="stylesheet" href={appStyles}></link>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <FsProvider
+          visitorData={data?.fsVisitorData}
+          initialFlagsData={data?.fsInitialFlags}
+        >
+          {data ? (
+            <Analytics.Provider
+              cart={data.cart}
+              shop={data.shop}
+              consent={data.consent}
+            >
+              <PageLayout {...data}>{children}</PageLayout>
+            </Analytics.Provider>
+          ) : (
+            children
+          )}
+        </FsProvider>
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
+      </body>
+    </html>
+  );
+}
 ```
 
 ## Use Feature Flags in React Components
