@@ -1052,27 +1052,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@flagship.io/js-sdk@npm:^5.1.2":
-  version: 5.1.5
-  resolution: "@flagship.io/js-sdk@npm:5.1.5"
+"@flagship.io/js-sdk@npm:^5.1.6-beta.1":
+  version: 5.1.6-beta.1
+  resolution: "@flagship.io/js-sdk@npm:5.1.6-beta.1"
   dependencies:
     events: "npm:^3.3.0"
     follow-redirects: "npm:^1.15.9"
     node-abort-controller: "npm:^3.1.1"
     node-fetch: "npm:^2.6.7"
-  checksum: 10c0/59ce9dd1b84e4dedb5b7961e089c9249c5dcb35ea35f5cfdb3f76457876eb74689af5222082fdfae80e5c2a91c9b19c3efac34eb160c86bfb319f00d848520da
+  checksum: 10c0/8f998c4f41425a47cdb397414452cb77acd7c2352f0126e38d1a9525fc89248f3e65b793bc0e5f774b832ac4888bcd0b523ef1e6adf92fb5660cf44c8aa18f57
   languageName: node
   linkType: hard
 
-"@flagship.io/react-sdk@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@flagship.io/react-sdk@npm:5.1.1"
+"@flagship.io/react-sdk@npm:^5.2.0-beta.1":
+  version: 5.2.0-beta.1
+  resolution: "@flagship.io/react-sdk@npm:5.2.0-beta.1"
   dependencies:
-    "@flagship.io/js-sdk": "npm:^5.1.2"
+    "@flagship.io/js-sdk": "npm:^5.1.6-beta.1"
     encoding: "npm:^0.1.13"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 10c0/0300f05aeea49d899794f14c8506735f61dcfec95d3f53cd575e8aef6c60644f4af351c058c92e2e8efc9248e01733e088948f8319b445adb8c0f98e64b9a4b3
+  checksum: 10c0/e22faacb8aa90a7a6fd8416792e24b3c22d7f1f1359ebf7e65577b1dc8386fdd576e3270645fc67b17930145f52154b6586f9e1d1801127080845e868407a668
   languageName: node
   linkType: hard
 
@@ -5229,7 +5229,7 @@ __metadata:
     "@eslint/compat": "npm:^1.2.5"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.18.0"
-    "@flagship.io/react-sdk": "npm:^5.1.1"
+    "@flagship.io/react-sdk": "npm:^5.2.0-beta.1"
     "@graphql-codegen/cli": "npm:5.0.2"
     "@react-router/dev": "npm:7.6.0"
     "@react-router/fs-routes": "npm:7.6.0"
