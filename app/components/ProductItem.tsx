@@ -6,7 +6,12 @@ import type {
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
-import {useFsFlag} from '@flagship.io/react-sdk/edge';
+import {
+  EventCategory,
+  HitType,
+  useFlagship,
+  useFsFlag,
+} from '@flagship.io/react-sdk/edge';
 
 export function ProductItem({
   product,
@@ -20,7 +25,23 @@ export function ProductItem({
 }) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
-  const discountFlag = useFsFlag('show_discount_message'); // Flag for discount
+  // Get flag to control discount message visibility
+  const discountFlag = useFsFlag('show_discount_message');
+  const showDiscount = discountFlag.getValue(false);
+  const flagship = useFlagship();
+
+  const handleProductClick = async () => {
+    // Send hit - it will be pooled and sent in batch in the background
+    flagship.sendHits([
+      {
+        type: HitType.EVENT,
+        category: EventCategory.ACTION_TRACKING,
+        action: 'product_click',
+        label: product.title,
+        value: 1,
+      },
+    ]);
+  };
 
   return (
     <Link
@@ -28,6 +49,7 @@ export function ProductItem({
       key={product.id}
       prefetch="intent"
       to={variantUrl}
+      onClick={handleProductClick}
     >
       {image && (
         <Image
@@ -42,10 +64,9 @@ export function ProductItem({
       <small>
         <Money data={product.priceRange.minVariantPrice} />
       </small>
-            {discountFlag.getValue(true) && (
-        <div className="discount-message">
-          Special discount available!
-        </div>
+      {/* Conditionally render discount message based on flag */}
+      {showDiscount && (
+        <div className="discount-message">Special discount available!</div>
       )}
     </Link>
   );

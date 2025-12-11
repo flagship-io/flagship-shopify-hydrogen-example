@@ -7,20 +7,57 @@ import type {
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
-import {useFsFlag} from '@flagship.io/react-sdk/edge';
+import {
+  EventCategory,
+  Flagship,
+  HitType,
+  useFsFlag,
+} from '@flagship.io/react-sdk/edge';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
-  // Start fetching non-critical data without blocking time to first byte
-  const deferredData = loadDeferredData(args);
+  const {context, request} = args;
 
-  // Await the critical data required to render initial state of the page
+  // Access the visitor from context
+  const {fsVisitor, waitUntil} = context;
+
+  // Get flag value to control number of products fetched
+  const productCountFlag = fsVisitor.getFlag('recommended_products_count');
+  const productCount = productCountFlag.getValue(4); // Default to 4
+
+  // Get flag to determine sorting strategy
+  const sortingFlag = fsVisitor.getFlag('product_sorting_strategy');
+  const sortBy = sortingFlag.getValue('UPDATED_AT');
+
+  // Add hits to the pool (non-blocking, no await needed but can be used)
+  // Hits will be sent when Flagship.close() is called in context.ts
+  // Continue with data loading immediately
+  await fsVisitor.sendHits([
+    {
+      type: HitType.PAGE_VIEW,
+      documentLocation: request.url,
+    },
+    {
+      type: HitType.EVENT,
+      category: EventCategory.ACTION_TRACKING,
+      action: 'checkout_version_view',
+      label: 'new_checkout_flow',
+      value: 1,
+    },
+  ]);
+
+  const deferredData = loadDeferredData(args);
   const criticalData = await loadCriticalData(args);
 
-  return {...deferredData, ...criticalData};
+  return {
+    ...deferredData,
+    ...criticalData,
+    productCount,
+    sortBy,
+  };
 }
 
 /**
@@ -62,7 +99,10 @@ export default function Homepage() {
   return (
     <div className="home">
       <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
+      <RecommendedProducts
+        products={data.recommendedProducts}
+        count={data.productCount}
+      />
     </div>
   );
 }
@@ -91,8 +131,10 @@ function FeaturedCollection({
 
 function RecommendedProducts({
   products,
+  count,
 }: {
   products: Promise<RecommendedProductsQuery | null>;
+  count?: number;
 }) {
   const headingFlag = useFsFlag('recommended_products_heading');
   return (
@@ -103,15 +145,16 @@ function RecommendedProducts({
           {(response) => (
             <div className="recommended-products-grid">
               {response
-                ? response.products.nodes.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
+                ? response.products.nodes
+                    .slice(0, count || 4)
+                    .map((product) => (
+                      <ProductItem key={product.id} product={product} />
+                    ))
                 : null}
             </div>
           )}
         </Await>
       </Suspense>
-      <br />
     </div>
   );
 }

@@ -75,27 +75,18 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  // Initialize Flagship visitor data
-  // This is an example of how to initialize the Flagship visitor data.
-  const fsVisitorData = {
-    visitorId: 'visitorId',
-    context: {
-      key: 'value',
-    },
-    hasConsented: true, // This should be set based on user consent
-  };
-
-  // Fetch the Flagship visitor data
-  // This will start the Flagship SDK and fetch the flags for the visitor.
-  const visitor = await getFsVisitorData(fsVisitorData);
-
-  const {storefront, env} = args.context;  
+  const {storefront, env, fsVisitor} = args.context;
 
   return {
     ...deferredData,
     ...criticalData,
-    fsInitialFlags: visitor.getFlags().toJSON(),
-    fsVisitorData,
+    // Serialize visitor data for client-side hydration
+    fsVisitorData: {
+      visitorId: fsVisitor.visitorId,
+      context: fsVisitor.context,
+      hasConsented: fsVisitor.hasConsented,
+      initialFlags: fsVisitor.getFlags().toJSON(),
+    },
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -179,7 +170,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
       <body>
         <FsProvider
           visitorData={data?.fsVisitorData}
-          initialFlagsData={data?.fsInitialFlags}
+          initialFlagsData={data?.fsVisitorData.initialFlags}
         >
           {data ? (
             <Analytics.Provider
@@ -202,9 +193,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
 
 export default function App() {
   return (
-    // <FsProvider>
     <Outlet />
-    // </FsProvider>
   );
 }
 
