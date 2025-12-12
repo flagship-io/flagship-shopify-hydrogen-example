@@ -2,7 +2,7 @@ import {createHydrogenContext} from '@shopify/hydrogen';
 import {AppSession} from '~/lib/session';
 import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
 import {getFsVisitorData} from '~/helpers/flagship';
-import {Flagship} from '@flagship.io/react-sdk';
+import {Flagship} from '@flagship.io/react-sdk/edge';
 
 /**
  * The context implementation is separate from server.ts
