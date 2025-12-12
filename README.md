@@ -83,4 +83,4 @@ npx shopify hydrogen deploy
 
 ### Flagship Resources
 
-- [Edge Bucketing Guide](https://docs.developers.flagship.io/docs/bucketing)
+- [Edge worker Guide](https://docs.abtasty.com/server-side/concepts/flagship-edge-worker-integration/flagship-+-shopify-hydrogen-integration)
